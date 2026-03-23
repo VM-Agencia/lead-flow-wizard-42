@@ -40,29 +40,31 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen overflow-x-hidden relative">
-      <PremiumBackground />
-      <Navbar />
-      <HeroSection />
-      <ProblemSection />
-      <InlineCTA
-        text="Deja de perder clientes"
-        microcopy="Agenda tu llamada gratuita y te mostramos cómo automatizar"
-      />
-      <SolutionSection />
-      <ServicesSection />
-      <InlineCTA
-        text="Quiero automatizar mi negocio"
-        microcopy="Te preparamos una propuesta personalizada sin compromiso"
-      />
-      <ProcessSection />
-      <ResultsSection />
-      <CTASection />
-      <FAQSection />
-      <ContactSection />
-      <Footer />
-      <WhatsAppButton />
-    </div>
+    <BusinessProvider>
+      <div className="min-h-screen overflow-x-hidden relative">
+        <PremiumBackground />
+        <Navbar />
+        <HeroSection />
+        <ProblemSection />
+        <InlineCTA
+          text="Deja de perder clientes"
+          microcopy="Agenda tu llamada gratuita y te mostramos cómo automatizar"
+        />
+        <SolutionSection />
+        <ServicesSection />
+        <InlineCTA
+          text="Quiero automatizar mi negocio"
+          microcopy="Te preparamos una propuesta personalizada sin compromiso"
+        />
+        <ProcessSection />
+        <ResultsSection />
+        <CTASection />
+        <FAQSection />
+        <ContactSection />
+        <Footer />
+        <WhatsAppButton />
+      </div>
+    </BusinessProvider>
   );
 };
 
