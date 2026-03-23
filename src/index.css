@@ -134,12 +134,15 @@
   }
 
   .premium-card {
-    @apply rounded-2xl border border-border surface-elevated transition-all duration-300;
-    box-shadow: 0 2px 16px hsl(0 0% 0% / 0.2), 0 0 0 1px hsl(225 12% 14% / 0.5);
+    @apply rounded-2xl border border-border transition-all duration-500;
+    background: hsl(var(--surface-elevated) / 0.6);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 20px hsl(0 0% 0% / 0.3), 0 0 0 1px hsl(225 12% 14% / 0.5);
   }
   .premium-card:hover {
-    border-color: hsl(var(--gold) / 0.25);
-    box-shadow: 0 4px 32px hsl(0 0% 0% / 0.3), 0 0 0 1px hsl(var(--gold) / 0.15), 0 0 24px hsl(var(--gold) / 0.05);
+    border-color: hsl(var(--gold) / 0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 40px hsl(0 0% 0% / 0.4), 0 0 0 1px hsl(var(--gold) / 0.2), 0 0 40px hsl(var(--gold) / 0.08);
   }
 
   /* ═══════════════════════════════════════════
