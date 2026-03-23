@@ -1,8 +1,91 @@
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
 
-/* ── Animated node network (canvas) ── */
+/* ═══════════════════════════════════════════
+   DATA — Business types & their flows
+   ═══════════════════════════════════════════ */
+
+interface BusinessFlow {
+  icon: string;
+  label: string;
+  steps: { label: string; detail: string }[];
+  stat: { value: string; label: string };
+}
+
+const businesses: BusinessFlow[] = [
+  {
+    icon: "💈",
+    label: "Barbería",
+    steps: [
+      { label: "Cliente pide cita", detail: "WhatsApp / Instagram" },
+      { label: "Respuesta automática", detail: "En menos de 1 segundo" },
+      { label: "Horarios disponibles", detail: "Sincronizado en tiempo real" },
+      { label: "Cita confirmada", detail: "Sin intervención manual" },
+    ],
+    stat: { value: "+180%", label: "más citas agendadas" },
+  },
+  {
+    icon: "⚡",
+    label: "Electricista",
+    steps: [
+      { label: "Solicitud urgente", detail: "Formulario / WhatsApp" },
+      { label: "Respuesta inmediata", detail: "Clasificación automática" },
+      { label: "Recoge información", detail: "Tipo de avería y zona" },
+      { label: "Servicio agendado", detail: "Asignación automática" },
+    ],
+    stat: { value: "+220%", label: "más servicios cerrados" },
+  },
+  {
+    icon: "🔧",
+    label: "Fontanero",
+    steps: [
+      { label: "Avería reportada", detail: "Cualquier canal digital" },
+      { label: "Respuesta automática", detail: "24/7 sin esperas" },
+      { label: "Prioriza urgencia", detail: "IA clasifica gravedad" },
+      { label: "Visita programada", detail: "Agenda optimizada" },
+    ],
+    stat: { value: "+195%", label: "más clientes atendidos" },
+  },
+  {
+    icon: "🚗",
+    label: "Detailing",
+    steps: [
+      { label: "Solicita lavado premium", detail: "Mensaje automático" },
+      { label: "Respuesta enviada", detail: "Catálogo + precios" },
+      { label: "Disponibilidad ofrecida", detail: "Calendario en vivo" },
+      { label: "Reserva confirmada", detail: "Pago anticipado" },
+    ],
+    stat: { value: "+240%", label: "más reservas al mes" },
+  },
+  {
+    icon: "🏥",
+    label: "Clínica",
+    steps: [
+      { label: "Paciente solicita cita", detail: "Web / WhatsApp" },
+      { label: "Respuesta automática", detail: "Formulario inteligente" },
+      { label: "Filtra servicio", detail: "Especialidad + urgencia" },
+      { label: "Cita agendada", detail: "Confirmación + recordatorio" },
+    ],
+    stat: { value: "+310%", label: "más citas sin llamadas" },
+  },
+  {
+    icon: "🍽️",
+    label: "Restaurante",
+    steps: [
+      { label: "Solicita reserva", detail: "Instagram / Google" },
+      { label: "Respuesta automática", detail: "Menú + opciones" },
+      { label: "Valida disponibilidad", detail: "Mesas en tiempo real" },
+      { label: "Reserva confirmada", detail: "Recordatorio automático" },
+    ],
+    stat: { value: "+160%", label: "más reservas online" },
+  },
+];
+
+/* ═══════════════════════════════════════════
+   Canvas — Node network background
+   ═══════════════════════════════════════════ */
+
 function NodeNetwork() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -14,27 +97,26 @@ function NodeNetwork() {
 
     let animId: number;
     let nodes: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
-
     const gold = { r: 212, g: 175, b: 55 };
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
       canvas!.width = canvas!.offsetWidth * dpr;
       canvas!.height = canvas!.offsetHeight * dpr;
-      ctx!.scale(dpr, dpr);
+      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
     function init() {
       resize();
       const w = canvas!.offsetWidth;
       const h = canvas!.offsetHeight;
-      const count = Math.min(Math.floor((w * h) / 18000), 60);
+      const count = Math.min(Math.floor((w * h) / 22000), 50);
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 1.5 + 0.8,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 1.2 + 0.6,
       }));
     }
 
@@ -43,7 +125,6 @@ function NodeNetwork() {
       const h = canvas!.offsetHeight;
       ctx!.clearRect(0, 0, w, h);
 
-      // Move nodes
       for (const n of nodes) {
         n.x += n.vx;
         n.y += n.vy;
@@ -51,17 +132,16 @@ function NodeNetwork() {
         if (n.y < 0 || n.y > h) n.vy *= -1;
       }
 
-      // Draw connections
-      const maxDist = 140;
+      const maxDist = 120;
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * 0.15;
+            const alpha = (1 - dist / maxDist) * 0.12;
             ctx!.strokeStyle = `rgba(${gold.r},${gold.g},${gold.b},${alpha})`;
-            ctx!.lineWidth = 0.6;
+            ctx!.lineWidth = 0.5;
             ctx!.beginPath();
             ctx!.moveTo(nodes[i].x, nodes[i].y);
             ctx!.lineTo(nodes[j].x, nodes[j].y);
@@ -70,11 +150,10 @@ function NodeNetwork() {
         }
       }
 
-      // Draw nodes
       for (const n of nodes) {
         ctx!.beginPath();
         ctx!.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(${gold.r},${gold.g},${gold.b},0.5)`;
+        ctx!.fillStyle = `rgba(${gold.r},${gold.g},${gold.b},0.4)`;
         ctx!.fill();
       }
 
@@ -94,98 +173,191 @@ function NodeNetwork() {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.7 }}
+      style={{ opacity: 0.5 }}
     />
   );
 }
 
-/* ── Floating status cards ── */
-function FloatingCard({
-  children,
-  className,
-  delay,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  delay: string;
-}) {
-  return (
-    <div
-      className={`absolute rounded-xl border border-gold/10 bg-card/60 backdrop-blur-md px-4 py-3 shadow-xl shadow-black/30 animate-fade-up ${className}`}
-      style={{ animationDelay: delay, animationFillMode: "both" }}
-    >
-      {children}
-    </div>
-  );
-}
+/* ═══════════════════════════════════════════
+   Live dot indicator
+   ═══════════════════════════════════════════ */
 
-function LiveDot() {
+function LiveDot({ className = "" }: { className?: string }) {
   return (
-    <span className="relative flex h-2 w-2">
+    <span className={`relative flex h-2 w-2 ${className}`}>
       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60" />
       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
     </span>
   );
 }
 
-/* ── Animated counter ── */
-function Counter({ target, suffix = "" }: { target: number; suffix?: string }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
+/* ═══════════════════════════════════════════
+   Flow visualization — the "live system"
+   ═══════════════════════════════════════════ */
+
+function FlowVisualization({
+  business,
+  animKey,
+}: {
+  business: BusinessFlow;
+  animKey: number;
+}) {
+  const [activeStep, setActiveStep] = useState(-1);
 
   useEffect(() => {
-    const duration = 2000;
-    const start = performance.now();
-    function tick(now: number) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setVal(Math.round(eased * target));
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-    const timer = setTimeout(() => requestAnimationFrame(tick), 800);
-    return () => clearTimeout(timer);
-  }, [target]);
+    setActiveStep(-1);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    business.steps.forEach((_, i) => {
+      timers.push(setTimeout(() => setActiveStep(i), 600 + i * 700));
+    });
+    return () => timers.forEach(clearTimeout);
+  }, [animKey, business.steps]);
 
   return (
-    <span ref={ref}>
-      {val}
-      {suffix}
-    </span>
+    <div className="relative w-full max-w-[400px] mx-auto lg:mx-0">
+      {/* System header */}
+      <div className="flex items-center gap-2 mb-6">
+        <LiveDot />
+        <span className="text-[11px] font-medium tracking-wider uppercase text-emerald-400/80">
+          Sistema activo — {business.label}
+        </span>
+      </div>
+
+      {/* Flow steps */}
+      <div className="space-y-3">
+        {business.steps.map((step, i) => {
+          const isActive = i <= activeStep;
+          const isCurrent = i === activeStep;
+          return (
+            <div key={`${animKey}-${i}`} className="flex items-start gap-3">
+              {/* Connector line + node */}
+              <div className="flex flex-col items-center pt-1">
+                <div
+                  className={`w-3 h-3 rounded-full border-2 transition-all duration-500 ${
+                    isActive
+                      ? "border-gold bg-gold/30 shadow-[0_0_12px_hsl(43,56%,52%,0.4)]"
+                      : "border-border bg-background"
+                  }`}
+                />
+                {i < business.steps.length - 1 && (
+                  <div className="relative w-[2px] h-8 mt-1">
+                    <div className="absolute inset-0 bg-border" />
+                    <div
+                      className="absolute top-0 left-0 w-full bg-gold/60 transition-all duration-500"
+                      style={{ height: isActive ? "100%" : "0%" }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Card */}
+              <div
+                className={`flex-1 rounded-xl border px-4 py-3 transition-all duration-500 ${
+                  isActive
+                    ? "border-gold/20 bg-card/80 backdrop-blur-sm shadow-lg shadow-gold/[0.06]"
+                    : "border-border/40 bg-card/20"
+                } ${isCurrent ? "scale-[1.02]" : "scale-100"}`}
+              >
+                <p
+                  className={`text-sm font-medium transition-colors duration-500 ${
+                    isActive ? "text-foreground" : "text-muted-foreground/50"
+                  }`}
+                >
+                  {step.label}
+                </p>
+                <p
+                  className={`text-[11px] mt-0.5 transition-colors duration-500 ${
+                    isActive ? "text-muted-foreground" : "text-muted-foreground/30"
+                  }`}
+                >
+                  {step.detail}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Result stat */}
+      <div
+        className={`mt-6 flex items-center gap-3 rounded-xl border px-4 py-3 transition-all duration-700 ${
+          activeStep >= business.steps.length - 1
+            ? "border-gold/20 bg-gold/[0.06] opacity-100 translate-y-0"
+            : "border-transparent bg-transparent opacity-0 translate-y-2"
+        }`}
+      >
+        <div className="w-10 h-10 rounded-lg bg-gold/15 flex items-center justify-center text-gold font-bold text-sm shrink-0">
+          {business.icon}
+        </div>
+        <div>
+          <p className="text-xl font-bold text-gold">{business.stat.value}</p>
+          <p className="text-[11px] text-muted-foreground">{business.stat.label}</p>
+        </div>
+      </div>
+    </div>
   );
 }
 
-/* ── HERO ── */
+/* ═══════════════════════════════════════════
+   HERO — Main component
+   ═══════════════════════════════════════════ */
+
 export default function HeroSection() {
+  const [selected, setSelected] = useState(0);
+  const [animKey, setAnimKey] = useState(0);
+
+  const selectBusiness = useCallback(
+    (idx: number) => {
+      if (idx === selected) return;
+      setSelected(idx);
+      setAnimKey((k) => k + 1);
+    },
+    [selected],
+  );
+
+  // Auto-cycle every 8s if user hasn't interacted
+  const interacted = useRef(false);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (interacted.current) return;
+      setSelected((s) => {
+        const next = (s + 1) % businesses.length;
+        setAnimKey((k) => k + 1);
+        return next;
+      });
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative min-h-[100svh] flex items-center overflow-hidden">
-      {/* ── Background layers ── */}
+      {/* ── BG layers ── */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-[hsl(225,30%,8%)]" />
-
-      {/* Radial glows */}
       <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full bg-gold/[0.03] blur-[160px]" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(220,80%,50%)]/[0.04] blur-[140px]" />
-
-      {/* Node network */}
+      <div className="absolute bottom-1/3 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(220,80%,50%)]/[0.03] blur-[140px]" />
       <NodeNetwork />
 
-      {/* Grid overlay */}
+      {/* Grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage:
-            "linear-gradient(hsl(var(--gold)/0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--gold)/0.3) 1px, transparent 1px)",
+            "linear-gradient(hsl(var(--gold) / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--gold) / 0.3) 1px, transparent 1px)",
           backgroundSize: "80px 80px",
         }}
       />
 
       {/* ── Content ── */}
       <div className="relative z-10 w-full max-w-7xl mx-auto section-padding pt-32 pb-28">
-        <div className="grid lg:grid-cols-[1fr_auto] gap-16 lg:gap-20 items-center">
-          {/* Left — Copy */}
-          <div className="max-w-2xl">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+          {/* ── Left — Copy + Selector ── */}
+          <div>
             {/* Tag */}
-            <div className="animate-fade-up" style={{ animationDelay: "0.1s" }}>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/20 bg-gold/[0.06] text-gold text-[11px] font-semibold tracking-widest uppercase mb-8">
+            <div
+              className="animate-fade-up mb-8"
+              style={{ animationDelay: "0.1s" }}
+            >
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/20 bg-gold/[0.06] text-gold text-[11px] font-semibold tracking-widest uppercase">
                 <LiveDot />
                 Sistema activo 24/7
               </span>
@@ -193,29 +365,63 @@ export default function HeroSection() {
 
             {/* Headline */}
             <h1
-              className="text-[clamp(2.5rem,6vw,5.5rem)] font-black leading-[0.95] tracking-tight text-balance animate-fade-up mb-7"
-              style={{ animationDelay: "0.2s", lineHeight: "0.95" }}
+              className="text-[clamp(2.25rem,5.5vw,4.5rem)] font-black leading-[0.95] tracking-tight text-balance animate-fade-up mb-6"
+              style={{ animationDelay: "0.2s", lineHeight: "0.98" }}
             >
               Automatizamos{" "}
-              <span className="text-gold">procesos clave</span>{" "}
-              de tu negocio con IA
+              <span className="text-gold">procesos clave</span> de tu negocio
+              con IA
             </h1>
 
-            {/* Subheadline */}
+            {/* Sub */}
             <p
-              className="text-lg sm:text-xl text-muted-foreground max-w-xl text-pretty animate-fade-up mb-10"
-              style={{ animationDelay: "0.35s" }}
+              className="text-base sm:text-lg text-muted-foreground max-w-lg text-pretty animate-fade-up mb-8"
+              style={{ animationDelay: "0.3s" }}
             >
-              Captación, respuesta y seguimiento — automatizados en un sistema
-              que trabaja en segundo plano mientras tú te enfocas en crecer.
+              Selecciona a qué te dedicas y observa cómo funcionaría tu sistema
+              automatizado en tiempo real.
             </p>
+
+            {/* ── Business selector ── */}
+            <div
+              className="animate-fade-up mb-10"
+              style={{ animationDelay: "0.4s" }}
+            >
+              <p className="text-xs text-muted-foreground mb-3 font-medium tracking-wide uppercase">
+                ¿A qué te dedicas?
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {businesses.map((b, i) => (
+                  <button
+                    key={b.label}
+                    onClick={() => {
+                      interacted.current = true;
+                      selectBusiness(i);
+                    }}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 active:scale-[0.96] ${
+                      selected === i
+                        ? "bg-gold/15 text-gold border border-gold/30 shadow-[0_0_16px_hsl(43,56%,52%,0.12)]"
+                        : "bg-card/40 text-muted-foreground border border-border/50 hover:border-gold/20 hover:text-foreground"
+                    }`}
+                  >
+                    <span className="mr-1.5">{b.icon}</span>
+                    {b.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row items-start gap-4 animate-fade-up mb-5"
+              className="flex flex-col sm:flex-row items-start gap-3 animate-fade-up mb-4"
               style={{ animationDelay: "0.5s" }}
             >
-              <Button variant="gold" size="xl" asChild className="animate-glow-pulse">
+              <Button
+                variant="gold"
+                size="xl"
+                asChild
+                className="animate-glow-pulse"
+              >
                 <a href="#contacto">
                   Agenda tu llamada gratuita
                   <ArrowRight className="ml-1" size={18} />
@@ -228,7 +434,7 @@ export default function HeroSection() {
                   rel="noopener"
                 >
                   <MessageCircle size={18} />
-                  Hablar por WhatsApp
+                  WhatsApp
                 </a>
               </Button>
             </div>
@@ -237,88 +443,19 @@ export default function HeroSection() {
               className="text-xs text-muted-foreground animate-fade-up"
               style={{ animationDelay: "0.6s" }}
             >
-              Sin compromiso · Te mostramos una propuesta clara en la llamada
+              Te mostramos cómo se aplicaría exactamente en tu negocio
             </p>
           </div>
 
-          {/* Right — Live system visual */}
+          {/* ── Right — Flow visualization ── */}
           <div
-            className="relative hidden lg:block w-[380px] h-[420px] animate-fade-up"
-            style={{ animationDelay: "0.4s" }}
+            className="animate-fade-up"
+            style={{ animationDelay: "0.5s" }}
           >
-            {/* Central hub */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center glow-gold">
-              <div className="w-10 h-10 rounded-xl bg-gold/20 border border-gold/30 flex items-center justify-center">
-                <div className="w-4 h-4 rounded-md bg-gold animate-pulse" />
-              </div>
-            </div>
-
-            {/* Orbit ring */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-52 h-52 rounded-full border border-gold/[0.08]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full border border-gold/[0.05]" />
-
-            {/* Floating cards */}
-            <FloatingCard className="top-2 left-4" delay="0.7s">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-gold/10 flex items-center justify-center text-gold text-xs font-bold">
-                  IA
-                </div>
-                <div>
-                  <p className="text-[11px] font-medium text-foreground/90">Lead cualificado</p>
-                  <p className="text-[10px] text-muted-foreground">Hace 12s</p>
-                </div>
-              </div>
-            </FloatingCard>
-
-            <FloatingCard className="top-16 right-0" delay="0.9s">
-              <div className="flex items-center gap-2">
-                <LiveDot />
-                <p className="text-[11px] font-medium text-emerald-400">
-                  <Counter target={47} /> leads hoy
-                </p>
-              </div>
-            </FloatingCard>
-
-            <FloatingCard className="bottom-24 -left-4" delay="1.1s">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[hsl(220,80%,50%)]/10 flex items-center justify-center text-[hsl(220,80%,50%)] text-[10px] font-bold">
-                  ⚡
-                </div>
-                <div>
-                  <p className="text-[11px] font-medium text-foreground/90">Respuesta enviada</p>
-                  <p className="text-[10px] text-muted-foreground">&lt;1s automático</p>
-                </div>
-              </div>
-            </FloatingCard>
-
-            <FloatingCard className="bottom-4 right-4" delay="1.3s">
-              <div className="text-center">
-                <p className="text-lg font-bold text-gold">
-                  <Counter target={312} suffix="%" />
-                </p>
-                <p className="text-[10px] text-muted-foreground">más conversiones</p>
-              </div>
-            </FloatingCard>
-
-            {/* Connecting lines (SVG) */}
-            <svg
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              viewBox="0 0 380 420"
-            >
-              {/* Hub to cards — animated dashes */}
-              <line x1="190" y1="210" x2="80" y2="40" stroke="hsl(43,56%,52%)" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="4 4">
-                <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="2s" repeatCount="indefinite" />
-              </line>
-              <line x1="190" y1="210" x2="330" y2="90" stroke="hsl(43,56%,52%)" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="4 4">
-                <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="2.5s" repeatCount="indefinite" />
-              </line>
-              <line x1="190" y1="210" x2="50" y2="340" stroke="hsl(43,56%,52%)" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="4 4">
-                <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="1.8s" repeatCount="indefinite" />
-              </line>
-              <line x1="190" y1="210" x2="330" y2="380" stroke="hsl(43,56%,52%)" strokeWidth="0.5" strokeOpacity="0.15" strokeDasharray="4 4">
-                <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="2.2s" repeatCount="indefinite" />
-              </line>
-            </svg>
+            <FlowVisualization
+              business={businesses[selected]}
+              animKey={animKey}
+            />
           </div>
         </div>
       </div>
