@@ -201,8 +201,7 @@ export default function CTASection() {
                 {data.before.items.map((item, i) => (
                   <li
                     key={`b-${selectedBusiness}-${i}`}
-                    className="flex items-start gap-3 opacity-0 animate-[fade-in_0.5s_ease-out_forwards]"
-                    style={{ animationDelay: `${200 + i * 120}ms` }}
+                    className="flex items-start gap-3"
                   >
                     <XCircle size={18} className="text-red-400/60 shrink-0 mt-0.5" />
                     <span className="text-sm text-muted-foreground leading-relaxed">
