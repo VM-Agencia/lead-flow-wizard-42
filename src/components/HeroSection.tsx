@@ -225,11 +225,8 @@ export default function HeroSection() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (interacted.current) return;
-      setSelected((s) => {
-        const next = (s + 1) % businesses.length;
-        setAnimKey((k) => k + 1);
-        return next;
-      });
+      setSelectedBusiness((selected + 1) % businesses.length);
+      setAnimKey((k) => k + 1);
     }, 8000);
     return () => clearInterval(interval);
   }, []);
