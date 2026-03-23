@@ -8,32 +8,39 @@ import {
 
 const faqs = [
   {
-    q: "¿Esto sirve para mi negocio?",
-    a: "Sí, trabajamos con autónomos, pequeñas empresas, negocios locales y ecommerce. Si tienes clientes, podemos automatizar cómo los captas, atiendes y fidelizas.",
+    q: "¿Esto funciona para mi tipo de negocio?",
+    a: "Sí. Trabajamos con autónomos, pymes, negocios locales y ecommerce. Si tienes clientes, podemos automatizar cómo los captas, atiendes y fidelizas.",
   },
   {
-    q: "¿Necesito conocimientos técnicos?",
-    a: "No. Nosotros nos encargamos de todo: diseño, implementación y optimización. Tú solo ves los resultados.",
+    q: "¿Necesito saber de tecnología?",
+    a: "No. Nos encargamos de todo: diseño, implementación y optimización. Tú solo ves los resultados.",
   },
   {
-    q: "¿Cuánto tiempo tarda en estar listo?",
-    a: "Dependiendo de la complejidad, entre 1 y 3 semanas tienes tu sistema funcionando y generando resultados.",
+    q: "¿Cuánto tarda en funcionar?",
+    a: "Entre 1 y 3 semanas tienes tu sistema funcionando y generando resultados medibles.",
   },
   {
-    q: "¿Es caro?",
-    a: "Nuestras soluciones se adaptan a cada presupuesto. Además, el retorno suele ser rápido: menos horas perdidas, más clientes atendidos.",
+    q: "¿Cuánto cuesta?",
+    a: "Cada solución se adapta a tu presupuesto y necesidades. El retorno suele ser rápido: menos horas perdidas, más clientes convertidos.",
+  },
+  {
+    q: "¿Qué pasa si no me convence?",
+    a: "En la llamada gratuita te mostramos exactamente qué haríamos por tu negocio. Sin compromiso. Si no te convence, no pasa nada.",
   },
 ];
 
 export default function FAQSection() {
   const ref = useReveal();
   return (
-    <section id="faq" className="py-24 lg:py-32 section-padding">
+    <section id="faq" className="py-28 lg:py-40 section-padding">
       <div ref={ref} className="reveal max-w-2xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-balance mb-4">
-          Preguntas <span className="text-gold">frecuentes</span>
+        <p className="text-gold text-sm font-semibold tracking-widest uppercase text-center mb-4">
+          FAQ
+        </p>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-balance mb-6" style={{ lineHeight: "1.1" }}>
+          Preguntas frecuentes
         </h2>
-        <p className="text-muted-foreground text-center mb-12">
+        <p className="text-lg text-muted-foreground text-center mb-14">
           Resolvemos tus dudas antes de dar el primer paso.
         </p>
 
@@ -42,12 +49,12 @@ export default function FAQSection() {
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className="border border-border rounded-xl surface-elevated px-6 data-[state=open]:border-gold/30 transition-colors"
+              className="premium-card px-7 data-[state=open]:border-gold/30"
             >
-              <AccordionTrigger className="text-left font-medium hover:no-underline hover:text-gold transition-colors py-5">
+              <AccordionTrigger className="text-left font-semibold hover:no-underline hover:text-gold transition-colors py-6 text-[15px]">
                 {f.q}
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-5 leading-relaxed">
+              <AccordionContent className="text-muted-foreground pb-6 leading-relaxed text-[15px]">
                 {f.a}
               </AccordionContent>
             </AccordionItem>

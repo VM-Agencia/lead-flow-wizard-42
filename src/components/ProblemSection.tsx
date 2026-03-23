@@ -2,35 +2,37 @@ import { useReveal } from "@/hooks/useReveal";
 import { AlertTriangle, Clock, UserX, Repeat } from "lucide-react";
 
 const problems = [
-  { icon: Repeat, text: "Tareas repetitivas que consumen tu tiempo" },
-  { icon: Clock, text: "Mensajes sin responder y oportunidades perdidas" },
-  { icon: AlertTriangle, text: "Clientes potenciales que se van a la competencia" },
-  { icon: UserX, text: "Tu negocio depende al 100% de ti" },
+  { icon: Repeat, text: "Repites las mismas tareas cada día y no avanzas" },
+  { icon: Clock, text: "Mensajes sin responder = clientes que se van" },
+  { icon: AlertTriangle, text: "La competencia capta a tus leads mientras duermes" },
+  { icon: UserX, text: "Si tú paras, tu negocio para" },
 ];
 
 export default function ProblemSection() {
   const ref = useReveal();
   return (
-    <section id="problema" className="py-24 lg:py-32 section-padding">
+    <section id="problema" className="py-28 lg:py-40 section-padding">
       <div ref={ref} className="reveal max-w-5xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-bold text-center text-balance mb-4">
-          Tu negocio no necesita más esfuerzo…{" "}
-          <span className="text-gold">necesita mejores sistemas</span>
+        <p className="text-gold text-sm font-semibold tracking-widest uppercase text-center mb-4">
+          El problema
+        </p>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-center text-balance mb-6" style={{ lineHeight: "1.1" }}>
+          Tu negocio no necesita más esfuerzo
         </h2>
-        <p className="text-muted-foreground text-center max-w-xl mx-auto mb-16">
-          ¿Te suena alguno de estos problemas?
+        <p className="text-lg text-muted-foreground text-center max-w-xl mx-auto mb-16">
+          Necesita sistemas que trabajen por ti. ¿Te suena alguno de estos?
         </p>
 
         <div className="grid sm:grid-cols-2 gap-5">
           {problems.map((p, i) => (
             <div
               key={i}
-              className={`reveal reveal-delay-${i + 1} flex items-start gap-4 p-6 rounded-xl border border-border surface-elevated hover:border-gold/30 transition-colors duration-300`}
+              className={`reveal reveal-delay-${i + 1} premium-card flex items-start gap-5 p-7`}
             >
-              <div className="shrink-0 w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center">
-                <p.icon size={20} className="text-gold" />
+              <div className="shrink-0 w-11 h-11 rounded-xl bg-destructive/10 flex items-center justify-center">
+                <p.icon size={20} className="text-destructive" />
               </div>
-              <p className="text-foreground/90 leading-relaxed">{p.text}</p>
+              <p className="text-foreground/90 leading-relaxed text-[15px]">{p.text}</p>
             </div>
           ))}
         </div>

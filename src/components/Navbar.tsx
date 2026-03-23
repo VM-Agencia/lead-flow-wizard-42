@@ -8,7 +8,6 @@ const navLinks = [
   { href: "#proceso", label: "Proceso" },
   { href: "#resultados", label: "Resultados" },
   { href: "#faq", label: "FAQ" },
-  { href: "#contacto", label: "Contacto" },
 ];
 
 export default function Navbar() {
@@ -24,16 +23,18 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? "surface-elevated/95 backdrop-blur-md shadow-lg shadow-black/20 border-b border-border" : "bg-transparent"
+        scrolled
+          ? "bg-background/90 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-border"
+          : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between h-16 section-padding">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-18 py-4 section-padding">
         <a href="#" className="text-lg font-bold tracking-tight">
           <span className="text-gold">VM</span> Agencia IA
         </a>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-7">
           {navLinks.map((l) => (
             <a
               key={l.href}
@@ -44,10 +45,8 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="https://wa.me/+34632507839?text=Hola%2C%20quiero%20automatizar%20mi%20negocio"
-            target="_blank"
-            rel="noopener"
-            className="ml-2 h-9 px-5 rounded-lg bg-gold text-primary-foreground text-sm font-semibold inline-flex items-center hover:brightness-110 transition-all active:scale-[0.97]"
+            href="#contacto"
+            className="ml-3 h-10 px-6 rounded-lg bg-gold text-primary-foreground text-sm font-semibold inline-flex items-center hover:brightness-110 transition-all active:scale-[0.97] shadow-md shadow-gold/15"
           >
             Agenda tu llamada
           </a>
@@ -65,24 +64,22 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden surface-elevated border-t border-border animate-fade-up">
-          <div className="flex flex-col gap-1 p-4">
+        <div className="md:hidden bg-background/95 backdrop-blur-xl border-t border-border animate-fade-up">
+          <div className="flex flex-col gap-1 p-5">
             {navLinks.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="py-2.5 px-3 rounded-md text-sm text-muted-foreground hover:text-gold hover:bg-muted/50 transition-colors"
+                className="py-3 px-4 rounded-lg text-sm text-muted-foreground hover:text-gold hover:bg-muted/30 transition-colors"
               >
                 {l.label}
               </a>
             ))}
             <a
-              href="https://wa.me/+34632507839?text=Hola%2C%20quiero%20automatizar%20mi%20negocio"
-              target="_blank"
-              rel="noopener"
+              href="#contacto"
               onClick={() => setOpen(false)}
-              className="mt-2 h-11 rounded-lg bg-gold text-primary-foreground text-sm font-semibold flex items-center justify-center hover:brightness-110 transition-all"
+              className="mt-3 h-12 rounded-lg bg-gold text-primary-foreground text-sm font-semibold flex items-center justify-center hover:brightness-110 transition-all"
             >
               Agenda tu llamada
             </a>
