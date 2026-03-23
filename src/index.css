@@ -213,11 +213,11 @@
   /* L3 — Tech grid */
   .premium-bg__grid {
     background-image:
-      linear-gradient(hsl(var(--gold) / 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--gold) / 0.03) 1px, transparent 1px);
+      linear-gradient(hsl(var(--gold) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--gold) / 0.05) 1px, transparent 1px);
     background-size: 80px 80px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
   }
 
   /* L5 — Subtle noise */
