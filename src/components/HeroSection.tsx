@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import { useBusiness } from "@/context/BusinessContext";
 
 /* ═══════════════════════════════════════════
    DATA — Business types & their flows
