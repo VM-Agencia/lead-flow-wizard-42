@@ -49,11 +49,13 @@
 
   html {
     scroll-behavior: smooth;
+    background-color: hsl(var(--background));
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
+    background: transparent;
   }
 }
 
@@ -156,35 +158,35 @@
     will-change: transform, opacity;
   }
   .premium-bg__blob--1 {
-    width: 600px;
-    height: 600px;
-    top: -10%;
-    right: -5%;
-    background: radial-gradient(circle, hsl(43 56% 52% / 0.06) 0%, transparent 70%);
+    width: 700px;
+    height: 700px;
+    top: -15%;
+    right: -10%;
+    background: radial-gradient(circle, hsl(43 56% 52% / 0.12) 0%, transparent 70%);
     animation: blob-drift-1 20s ease-in-out infinite;
   }
   .premium-bg__blob--2 {
-    width: 500px;
-    height: 500px;
-    bottom: 10%;
-    left: -8%;
-    background: radial-gradient(circle, hsl(220 70% 50% / 0.04) 0%, transparent 70%);
+    width: 600px;
+    height: 600px;
+    bottom: 5%;
+    left: -12%;
+    background: radial-gradient(circle, hsl(220 70% 50% / 0.08) 0%, transparent 70%);
     animation: blob-drift-2 25s ease-in-out infinite;
   }
   .premium-bg__blob--3 {
-    width: 400px;
-    height: 400px;
-    top: 40%;
-    right: 20%;
-    background: radial-gradient(circle, hsl(260 40% 45% / 0.03) 0%, transparent 70%);
+    width: 500px;
+    height: 500px;
+    top: 35%;
+    right: 15%;
+    background: radial-gradient(circle, hsl(260 40% 50% / 0.06) 0%, transparent 70%);
     animation: blob-drift-3 22s ease-in-out infinite;
   }
   .premium-bg__blob--4 {
-    width: 350px;
-    height: 350px;
-    top: 60%;
-    left: 30%;
-    background: radial-gradient(circle, hsl(43 56% 52% / 0.04) 0%, transparent 70%);
+    width: 450px;
+    height: 450px;
+    top: 55%;
+    left: 25%;
+    background: radial-gradient(circle, hsl(43 56% 52% / 0.08) 0%, transparent 70%);
     animation: blob-drift-4 18s ease-in-out infinite;
   }
 
@@ -211,11 +213,11 @@
   /* L3 — Tech grid */
   .premium-bg__grid {
     background-image:
-      linear-gradient(hsl(var(--gold) / 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(var(--gold) / 0.03) 1px, transparent 1px);
+      linear-gradient(hsl(var(--gold) / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--gold) / 0.05) 1px, transparent 1px);
     background-size: 80px 80px;
-    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
-    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 80%);
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
   }
 
   /* L5 — Subtle noise */
