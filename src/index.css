@@ -80,10 +80,12 @@
     text-wrap: pretty;
   }
   .surface-elevated {
-    background-color: hsl(var(--surface-elevated));
+    background-color: hsl(var(--surface-elevated) / 0.7);
+    backdrop-filter: blur(2px);
   }
   .surface-alt {
-    background-color: hsl(var(--surface-alt));
+    background-color: hsl(var(--surface-alt) / 0.5);
+    backdrop-filter: blur(1px);
   }
 }
 
