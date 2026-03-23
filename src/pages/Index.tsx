@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { BusinessProvider } from "@/context/BusinessContext";
 import PremiumBackground from "@/components/PremiumBackground";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
