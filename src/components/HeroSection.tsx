@@ -83,102 +83,6 @@ const businesses: BusinessFlow[] = [
 ];
 
 /* ═══════════════════════════════════════════
-   Canvas — Node network background
-   ═══════════════════════════════════════════ */
-
-function NodeNetwork() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animId: number;
-    let nodes: { x: number; y: number; vx: number; vy: number; r: number }[] = [];
-    const gold = { r: 212, g: 175, b: 55 };
-
-    function resize() {
-      const dpr = window.devicePixelRatio || 1;
-      canvas!.width = canvas!.offsetWidth * dpr;
-      canvas!.height = canvas!.offsetHeight * dpr;
-      ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    function init() {
-      resize();
-      const w = canvas!.offsetWidth;
-      const h = canvas!.offsetHeight;
-      const count = Math.min(Math.floor((w * h) / 22000), 50);
-      nodes = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        r: Math.random() * 1.2 + 0.6,
-      }));
-    }
-
-    function draw() {
-      const w = canvas!.offsetWidth;
-      const h = canvas!.offsetHeight;
-      ctx!.clearRect(0, 0, w, h);
-
-      for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
-        if (n.x < 0 || n.x > w) n.vx *= -1;
-        if (n.y < 0 || n.y > h) n.vy *= -1;
-      }
-
-      const maxDist = 120;
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dx = nodes[i].x - nodes[j].x;
-          const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * 0.12;
-            ctx!.strokeStyle = `rgba(${gold.r},${gold.g},${gold.b},${alpha})`;
-            ctx!.lineWidth = 0.5;
-            ctx!.beginPath();
-            ctx!.moveTo(nodes[i].x, nodes[i].y);
-            ctx!.lineTo(nodes[j].x, nodes[j].y);
-            ctx!.stroke();
-          }
-        }
-      }
-
-      for (const n of nodes) {
-        ctx!.beginPath();
-        ctx!.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx!.fillStyle = `rgba(${gold.r},${gold.g},${gold.b},0.4)`;
-        ctx!.fill();
-      }
-
-      animId = requestAnimationFrame(draw);
-    }
-
-    init();
-    draw();
-    window.addEventListener("resize", init);
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", init);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ opacity: 0.5 }}
-    />
-  );
-}
-
-/* ═══════════════════════════════════════════
    Live dot indicator
    ═══════════════════════════════════════════ */
 
@@ -331,21 +235,9 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-[100svh] flex items-center overflow-hidden">
-      {/* ── BG layers ── */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-[hsl(225,30%,8%)]" />
-      <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full bg-gold/[0.03] blur-[160px]" />
-      <div className="absolute bottom-1/3 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(220,80%,50%)]/[0.03] blur-[140px]" />
-      <NodeNetwork />
-
-      {/* Grid */}
-      <div
-        className="absolute inset-0 opacity-[0.025]"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(var(--gold) / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--gold) / 0.3) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
-      />
+      {/* ── BG accent layers (hero-specific) ── */}
+      <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full bg-gold/[0.04] blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-1/3 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(220,80%,50%)]/[0.03] blur-[140px] pointer-events-none" />
 
       {/* ── Content ── */}
       <div className="relative z-10 w-full max-w-7xl mx-auto section-padding pt-32 pb-28">
