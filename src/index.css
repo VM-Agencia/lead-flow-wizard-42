@@ -93,6 +93,11 @@
   }
 
   .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  .reveal-ready .reveal {
     opacity: 0;
     transform: translateY(18px);
     filter: blur(4px);
@@ -100,7 +105,7 @@
                 transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
                 filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .reveal.visible {
+  .reveal-ready .reveal.visible {
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
