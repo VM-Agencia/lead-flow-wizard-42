@@ -51,7 +51,14 @@ export default function ProblemSection() {
           {problems.map((p, i) => (
             <div
               key={i}
-              className={`reveal reveal-delay-${i + 1} group relative rounded-2xl border border-border bg-card/50 backdrop-blur-sm p-7 transition-all duration-300 hover:border-gold/20 hover:shadow-[0_0_32px_hsl(43,56%,52%,0.06)] hover:-translate-y-0.5`}
+              className="group relative rounded-2xl border border-border bg-card/50 backdrop-blur-sm p-7 transition-all duration-300 hover:border-gold/20 hover:shadow-[0_0_32px_hsl(43,56%,52%,0.06)] hover:-translate-y-0.5"
+              style={{
+                opacity: 0,
+                transform: "translateY(18px)",
+                filter: "blur(4px)",
+                animation: "reveal-card 0.7s cubic-bezier(0.16,1,0.3,1) forwards",
+                animationDelay: `${0.15 + i * 0.1}s`,
+              }}
             >
               {/* Icon */}
               <div className="w-10 h-10 rounded-xl bg-destructive/[0.08] border border-destructive/10 flex items-center justify-center mb-5 transition-colors duration-300 group-hover:bg-destructive/[0.12]">
