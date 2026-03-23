@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
+import InlineCTA from "@/components/InlineCTA";
 import SolutionSection from "@/components/SolutionSection";
 import ServicesSection from "@/components/ServicesSection";
 import ProcessSection from "@/components/ProcessSection";
@@ -14,7 +15,6 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   useEffect(() => {
-    // Activate reveal animations for elements already in viewport
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -24,7 +24,7 @@ const Index = () => {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     );
 
     document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
@@ -36,8 +36,16 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <ProblemSection />
+      <InlineCTA
+        text="Deja de perder clientes"
+        microcopy="Agenda tu llamada gratuita y te mostramos cómo automatizar"
+      />
       <SolutionSection />
       <ServicesSection />
+      <InlineCTA
+        text="Quiero automatizar mi negocio"
+        microcopy="Te preparamos una propuesta personalizada sin compromiso"
+      />
       <ProcessSection />
       <ResultsSection />
       <CTASection />

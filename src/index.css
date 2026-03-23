@@ -2,44 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 @layer base {
   :root {
-    --background: 220 25% 6%;
-    --foreground: 0 0% 95%;
+    --background: 225 25% 5%;
+    --foreground: 0 0% 96%;
 
-    --card: 220 20% 10%;
-    --card-foreground: 0 0% 95%;
+    --card: 225 20% 9%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 220 20% 10%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 225 20% 9%;
+    --popover-foreground: 0 0% 96%;
 
     --primary: 43 56% 52%;
-    --primary-foreground: 220 25% 6%;
+    --primary-foreground: 225 25% 5%;
 
-    --secondary: 220 15% 15%;
+    --secondary: 225 15% 12%;
     --secondary-foreground: 0 0% 85%;
 
-    --muted: 220 15% 18%;
-    --muted-foreground: 220 10% 55%;
+    --muted: 225 12% 16%;
+    --muted-foreground: 225 8% 50%;
 
     --accent: 43 56% 52%;
-    --accent-foreground: 220 25% 6%;
+    --accent-foreground: 225 25% 5%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
+    --border: 225 12% 14%;
+    --input: 225 12% 14%;
     --ring: 43 56% 52%;
 
-    --radius: 0.75rem;
+    --radius: 0.875rem;
 
     --gold: 43 56% 52%;
     --gold-light: 43 56% 65%;
     --gold-dark: 43 56% 40%;
-    --surface-elevated: 220 20% 12%;
+    --surface-elevated: 225 18% 10%;
+    --surface-alt: 225 20% 7%;
   }
 
   * {
@@ -67,35 +68,55 @@
     border-color: hsl(var(--gold));
   }
   .glow-gold {
-    box-shadow: 0 0 20px hsl(var(--gold) / 0.15), 0 0 60px hsl(var(--gold) / 0.05);
+    box-shadow: 0 0 24px hsl(var(--gold) / 0.12), 0 0 64px hsl(var(--gold) / 0.04);
   }
   .glow-gold-strong {
-    box-shadow: 0 0 30px hsl(var(--gold) / 0.25), 0 0 80px hsl(var(--gold) / 0.1);
+    box-shadow: 0 0 40px hsl(var(--gold) / 0.2), 0 0 100px hsl(var(--gold) / 0.08);
   }
   .text-balance {
     text-wrap: balance;
   }
+  .text-pretty {
+    text-wrap: pretty;
+  }
   .surface-elevated {
     background-color: hsl(var(--surface-elevated));
+  }
+  .surface-alt {
+    background-color: hsl(var(--surface-alt));
   }
 }
 
 @layer components {
   .section-padding {
-    @apply px-5 md:px-8 lg:px-16;
+    @apply px-6 md:px-10 lg:px-20;
   }
 
   .reveal {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(18px);
+    filter: blur(4px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .reveal.visible {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
   }
   .reveal-delay-1 { transition-delay: 80ms; }
   .reveal-delay-2 { transition-delay: 160ms; }
   .reveal-delay-3 { transition-delay: 240ms; }
   .reveal-delay-4 { transition-delay: 320ms; }
+  .reveal-delay-5 { transition-delay: 400ms; }
+
+  .premium-card {
+    @apply rounded-2xl border border-border surface-elevated transition-all duration-300;
+    box-shadow: 0 2px 16px hsl(0 0% 0% / 0.2), 0 0 0 1px hsl(225 12% 14% / 0.5);
+  }
+  .premium-card:hover {
+    border-color: hsl(var(--gold) / 0.25);
+    box-shadow: 0 4px 32px hsl(0 0% 0% / 0.3), 0 0 0 1px hsl(var(--gold) / 0.15), 0 0 24px hsl(var(--gold) / 0.05);
+  }
 }
