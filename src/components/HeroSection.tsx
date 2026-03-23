@@ -331,21 +331,9 @@ export default function HeroSection() {
 
   return (
     <section className="relative min-h-[100svh] flex items-center overflow-hidden">
-      {/* ── BG layers ── */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-[hsl(225,30%,8%)]" />
-      <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full bg-gold/[0.03] blur-[160px]" />
-      <div className="absolute bottom-1/3 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(220,80%,50%)]/[0.03] blur-[140px]" />
-      <NodeNetwork />
-
-      {/* Grid */}
-      <div
-        className="absolute inset-0 opacity-[0.025]"
-        style={{
-          backgroundImage:
-            "linear-gradient(hsl(var(--gold) / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--gold) / 0.3) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-        }}
-      />
+      {/* ── BG accent layers (hero-specific) ── */}
+      <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full bg-gold/[0.04] blur-[160px] pointer-events-none" />
+      <div className="absolute bottom-1/3 left-0 w-[500px] h-[500px] rounded-full bg-[hsl(220,80%,50%)]/[0.03] blur-[140px] pointer-events-none" />
 
       {/* ── Content ── */}
       <div className="relative z-10 w-full max-w-7xl mx-auto section-padding pt-32 pb-28">
