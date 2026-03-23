@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import { useBusiness } from "@/context/BusinessContext";
 
 /* ═══════════════════════════════════════════
    DATA — Business types & their flows
@@ -207,31 +208,32 @@ function FlowVisualization({
    ═══════════════════════════════════════════ */
 
 export default function HeroSection() {
-  const [selected, setSelected] = useState(0);
+  const { selectedBusiness: selected, setSelectedBusiness } = useBusiness();
   const [animKey, setAnimKey] = useState(0);
 
   const selectBusiness = useCallback(
     (idx: number) => {
       if (idx === selected) return;
-      setSelected(idx);
+      setSelectedBusiness(idx);
       setAnimKey((k) => k + 1);
     },
-    [selected],
+    [selected, setSelectedBusiness],
   );
 
   // Auto-cycle every 8s if user hasn't interacted
   const interacted = useRef(false);
+  const selectedRef = useRef(selected);
+  selectedRef.current = selected;
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (interacted.current) return;
-      setSelected((s) => {
-        const next = (s + 1) % businesses.length;
-        setAnimKey((k) => k + 1);
-        return next;
-      });
+      const next = (selectedRef.current + 1) % businesses.length;
+      setSelectedBusiness(next);
+      setAnimKey((k) => k + 1);
     }, 8000);
     return () => clearInterval(interval);
-  }, []);
+  }, [setSelectedBusiness]);
 
   return (
     <section className="relative min-h-[100svh] flex items-center overflow-hidden">
