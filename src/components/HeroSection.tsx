@@ -222,14 +222,18 @@ export default function HeroSection() {
 
   // Auto-cycle every 8s if user hasn't interacted
   const interacted = useRef(false);
+  const selectedRef = useRef(selected);
+  selectedRef.current = selected;
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (interacted.current) return;
-      setSelectedBusiness((selected + 1) % businesses.length);
+      const next = (selectedRef.current + 1) % businesses.length;
+      setSelectedBusiness(next);
       setAnimKey((k) => k + 1);
     }, 8000);
     return () => clearInterval(interval);
-  }, []);
+  }, [setSelectedBusiness]);
 
   return (
     <section className="relative min-h-[100svh] flex items-center overflow-hidden">
