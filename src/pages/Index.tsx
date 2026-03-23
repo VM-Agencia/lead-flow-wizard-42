@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import PremiumBackground from "@/components/PremiumBackground";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ProblemSection from "@/components/ProblemSection";
