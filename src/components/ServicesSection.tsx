@@ -32,10 +32,9 @@ const services = [
 ];
 
 export default function ServicesSection() {
-  const ref = useReveal();
   return (
     <section id="servicios" className="py-28 lg:py-40 section-padding surface-alt">
-      <div ref={ref} className="reveal max-w-5xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <p className="text-gold text-xs font-semibold tracking-[0.2em] uppercase text-center mb-5">
           Servicios
         </p>
