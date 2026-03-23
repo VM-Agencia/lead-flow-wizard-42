@@ -208,16 +208,16 @@ function FlowVisualization({
    ═══════════════════════════════════════════ */
 
 export default function HeroSection() {
-  const [selected, setSelected] = useState(0);
+  const { selectedBusiness: selected, setSelectedBusiness } = useBusiness();
   const [animKey, setAnimKey] = useState(0);
 
   const selectBusiness = useCallback(
     (idx: number) => {
       if (idx === selected) return;
-      setSelected(idx);
+      setSelectedBusiness(idx);
       setAnimKey((k) => k + 1);
     },
-    [selected],
+    [selected, setSelectedBusiness],
   );
 
   // Auto-cycle every 8s if user hasn't interacted
